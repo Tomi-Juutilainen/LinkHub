@@ -175,18 +175,15 @@
     border-radius: 999px;
     }
 
-    /* 固定左右最小留白 */
-    :root { --item-pad-x: 16px; }                   /* 你也可以改成 20px 等 */
+    :root { --item-pad-x: 16px; }
     .item { padding: 14px var(--item-pad-x); }
-    /* 讓中間欄位可縮小，避免把整個卡片撐爆 */
     .item { grid-template-columns: 40px minmax(0,1fr) auto; }
-    /* 過長文字單行省略，不超出右側按鈕 */
-    .center { min-width: 0; }                        /* Safari/Chrome Grid 關鍵 */
+    .center { min-width: 0; }
     .center .label,
     .center .sublabel {
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;                           /* 需要單行才會出現 … */
+      white-space: nowrap;
   }
 
   </style>
