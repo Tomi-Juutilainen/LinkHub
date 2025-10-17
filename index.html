@@ -168,11 +168,26 @@
       .container { margin: 24px auto; padding-bottom: 64px; }
     }
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
     .divider {
     height: 1px;
     background: var(--border);
     border-radius: 999px;
-}
+    }
+
+    /* 固定左右最小留白 */
+    :root { --item-pad-x: 16px; }                   /* 你也可以改成 20px 等 */
+    .item { padding: 14px var(--item-pad-x); }
+    /* 讓中間欄位可縮小，避免把整個卡片撐爆 */
+    .item { grid-template-columns: 40px minmax(0,1fr) auto; }
+    /* 過長文字單行省略，不超出右側按鈕 */
+    .center { min-width: 0; }                        /* Safari/Chrome Grid 關鍵 */
+    .center .label,
+    .center .sublabel {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;                           /* 需要單行才會出現 … */
+  }
 
   </style>
 </head>
@@ -183,7 +198,7 @@
       <div class="profile-main">
         <div class="name" id="name">Tomi Juutilainen</div>
         <div class="title" id="role">とみ ゆーてぃらいねん</div>
-        <p class="bio" id="bio">Förlorare・ゲーム・FFXIV・シャニマス・樋口円香に殺されたい</p>
+        <p class="bio" id="bio">Förlorare・樋口円香に殺されたい</p>
       </div>
       <div class="top-actions">
         <button class="btn" id="shareBtn" aria-label="Dela den här sidan"><span class="icon">🔗</span> Dela</button>
@@ -204,7 +219,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
-  const PROFILE = { name:"Tomi Juutilainen", role:"とみ ゆーてぃらいねん", bio:"Förlorare・ゲーム・FFXIV・シャニマス・樋口円香に殺されたい", avatarText:"N", avatarUrl:"assets/avatar.png" };
+  const PROFILE = { name:"Tomi Juutilainen", role:"とみ ゆーてぃらいねん", bio:"Förlorare・樋口円香に殺されたい", avatarText:"N", avatarUrl:"assets/avatar.png" };
   const ITEMS = [
     //{ type:"link", label:"Instagram", sublabel:"@your-id", url:"https://instagram.com/", icon:"instagram" },
     { type:"link", label:"Twitter", sublabel:"@TomiJuutilainen", url:"https://x.com/TomiJuutilainen", icon:"x" },
