@@ -162,11 +162,68 @@
       transition: transform .25s cubic-bezier(.2,.9,.2,1), opacity .25s ease; pointer-events: none; z-index: 9999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    
+    /* 統一手機端頭像尺寸，並讓 grid 第一欄跟著這個尺寸走 */
+    :root { --avatar-sm: 72px; }
+
     @media (max-width: 640px) {
-      header.profile { grid-template-columns: 72px 1fr auto; padding: 18px; }
-      .avatar { width: 72px; height: 72px; border-radius: 16px; font-size: 28px; }
-      .container { margin: 24px auto; padding-bottom: 64px; }
+      header.profile {
+        /* 第一欄用變數，避免 avatar 96px 時「超出欄寬」而壓到文字 */
+        grid-template-columns: var(--avatar-sm) 1fr auto;
+        grid-template-areas:
+          "avatar name  actions"
+          "avatar title actions"
+          "avatar bio   bio";
+        gap: 14px;
+        align-items: start;
+        padding: 18px;
+      }
+
+      /* 讓實際頭像尺寸與欄寬一致（避免覆蓋到右側文字） */
+      header.profile .avatar,
+      .avatar {
+        width: var(--avatar-sm);
+        height: var(--avatar-sm);
+        border-radius: 16px;
+        font-size: 28px;
+      }
+
+      header.profile .top-actions {
+        grid-area: actions;
+        align-self: start;
+        justify-self: end; /* 右上角固定 */
+      }
+
+      /* 讓 .profile-main 的子元素直接參與 grid */
+      header.profile .profile-main { display: contents; }
+
+      /* 名稱允許換行，不要省略號 */
+      header.profile .name {
+        grid-area: name;
+        margin: 14px 0 4px;
+        min-width: 0;
+        white-space: normal;        /* ✅ 允許換行 */
+        overflow: visible;          /* 不裁切 */
+        line-height: 1.2;
+      }
+
+      header.profile .title {
+        grid-area: title;
+        margin: 0 0 6px;
+        min-width: 0;
+        white-space: nowrap;
+        overflow: visible;
+        text-overflow: ellipsis;
+      }
+
+      header.profile .bio {
+        grid-area: bio;
+        margin-top: 4px;
+        white-space: normal;
+        overflow: visible;
+      }
     }
+
     @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 
     .divider {
