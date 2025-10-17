@@ -379,21 +379,26 @@
   }
   function themeGetSystem(){ return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light"; }
   function themeGetEffective(){ return localStorage.getItem("linkhub-theme") || themeGetSystem(); }
-  function themeInit(){
-    var stored = localStorage.getItem("linkhub-theme");
-    if(stored==="dark"||stored==="light") themeApply(stored); else themeApply(null);
-    try{
-      var mql = window.matchMedia("(prefers-color-scheme: dark)");
-      mql.addEventListener && mql.addEventListener("change", function(){ if(!localStorage.getItem("linkhub-theme")) themeApply(null); });
-    }catch(_){}
-    $("#themeBtn").addEventListener("click", function(){
-      var cur = themeGetEffective();
-      var next = (cur==="dark")?"light":"dark";
-      localStorage.setItem("linkhub-theme", next);
-      themeApply(next);
-      toast((next==="dark"?"Mörkt":"Ljust") + " läge aktiverat");
-    });
-  }
+  function themeInit() {
+  const stored = localStorage.getItem("linkhub-theme");
+  const initial = (stored === "dark" || stored === "light") ? stored : themeGetSystem();
+  if (!stored) localStorage.setItem("linkhub-theme", initial);
+  themeApply(initial);
+  const mql = window.matchMedia("(prefers-color-scheme: dark)");
+  mql.addEventListener?.("change", e => {
+    const pref = localStorage.getItem("linkhub-theme");
+    if (!pref) { 
+      themeApply(e.matches ? "dark" : "light");
+    }
+  });
+  document.getElementById("themeBtn").addEventListener("click", () => {
+    const cur  = themeGetEffective();
+    const next = (cur === "dark") ? "light" : "dark";
+    localStorage.setItem("linkhub-theme", next);
+    themeApply(next);
+  });
+}
+
 
   function initShare(){
     $("#shareBtn").addEventListener("click", function(){
