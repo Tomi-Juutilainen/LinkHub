@@ -162,13 +162,11 @@
       transition: transform .25s cubic-bezier(.2,.9,.2,1), opacity .25s ease; pointer-events: none; z-index: 9999;
     }
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-    
-    /* 統一手機端頭像尺寸，並讓 grid 第一欄跟著這個尺寸走 */
+
     :root { --avatar-sm: 72px; }
 
     @media (max-width: 640px) {
       header.profile {
-        /* 第一欄用變數，避免 avatar 96px 時「超出欄寬」而壓到文字 */
         grid-template-columns: var(--avatar-sm) 1fr auto;
         grid-template-areas:
           "avatar name  actions"
@@ -179,7 +177,6 @@
         padding: 18px;
       }
 
-      /* 讓實際頭像尺寸與欄寬一致（避免覆蓋到右側文字） */
       header.profile .avatar,
       .avatar {
         width: var(--avatar-sm);
@@ -191,19 +188,17 @@
       header.profile .top-actions {
         grid-area: actions;
         align-self: start;
-        justify-self: end; /* 右上角固定 */
+        justify-self: end;
       }
 
-      /* 讓 .profile-main 的子元素直接參與 grid */
       header.profile .profile-main { display: contents; }
 
-      /* 名稱允許換行，不要省略號 */
       header.profile .name {
         grid-area: name;
         margin: 14px 0 4px;
         min-width: 0;
-        white-space: normal;        /* ✅ 允許換行 */
-        overflow: visible;          /* 不裁切 */
+        white-space: normal;
+        overflow: visible;
         line-height: 1.2;
       }
 
@@ -346,7 +341,7 @@
         list.appendChild(hr);
       } else {
         var d = document.createElement("div"); d.className="item"; d.setAttribute("role","group");
-        d.innerHTML = '<div class="left">'+icon(it.icon)+'</div><div class="center"><div class="label">'+it.label+'</div>'+ (it.sublabel?'<div class="sublabel">'+it.sublabel+'</div>':'') +'</div><div class="right"><button class="copy-btn" data-value="'+it.value+'" aria-label="复制 '+it.label+'">'+icon('copy')+' Kopiera</button></div>';
+        d.innerHTML = '<div class="left">'+icon(it.icon)+'</div><div class="center"><div class="label">'+it.label+'</div>'+ (it.sublabel?'<div class="sublabel">'+it.sublabel+'</div>':'') +'</div><div class="right"><button class="copy-btn" data-value="'+it.value+'" aria-label="Kopiera '+it.label+'">'+icon('copy')+' Kopiera</button></div>';
         list.appendChild(d);
       }
     });
